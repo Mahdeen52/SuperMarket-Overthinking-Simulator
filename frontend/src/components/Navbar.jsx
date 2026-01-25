@@ -38,7 +38,7 @@ const Navbar = ({ transparent }) => {
                         fontSize: '24px',
                         fontWeight: '800',
                         color: 'white',
-                        fontFamily: 'Montserrat, sans-serif',
+                        fontFamily: "'Roboto', sans-serif",
                         letterSpacing: '-0.5px'
                     }}>
                         Overthinking Market

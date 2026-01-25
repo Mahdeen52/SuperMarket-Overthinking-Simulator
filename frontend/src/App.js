@@ -19,7 +19,7 @@ function ProtectedRoute({ children }) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100vh',
-                fontFamily: 'system-ui'
+                fontFamily: "'Roboto', sans-serif"
             }}>
                 Loading...
             </div>
