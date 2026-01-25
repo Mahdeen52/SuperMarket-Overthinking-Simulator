@@ -99,7 +99,7 @@ function Browse() {
                         fontSize: '48px',
                         fontWeight: '800',
                         marginBottom: '16px',
-                        color: 'white',
+                        color: 'rgba(25, 123, 180, 0.94)',
                         textShadow: '0 2px 4px rgba(0,0,0,0.2)'
                     }}>
                         Premium Market Collection
@@ -109,7 +109,7 @@ function Browse() {
                         opacity: 0.9,
                         maxWidth: '700px',
                         margin: '0 auto 32px',
-                        color: 'rgba(255,255,255,0.9)'
+                        color: 'rgba(25, 123, 180, 0.94)'
                     }}>
                         Curated selections for the decisive shopper. High-quality items, minimal stress.
                     </p>
@@ -313,20 +313,20 @@ function Browse() {
                                         )}
                                     </div>
 
-                                    <div style={{ padding: '24px' }}>
+                                    <div style={{ padding: '30px' }}>
                                         <h3 style={{ fontSize: '22px', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>
                                             {item.name}
                                         </h3>
-                                        <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: 1.5 }}>
+                                        <p style={{ fontSize: '16px', color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: 2.5 }}>
                                             {item.comment}
                                         </p>
 
                                         <div style={{
-                                            background: '#f8fafc', padding: '16px',
+                                            background: '#f8fafc', padding: '20px',
                                             borderRadius: '12px', borderLeft: '4px solid var(--royal-main)',
-                                            fontSize: '13px', color: '#334155',
+                                            fontSize: '16px', color: '#171b20ff',
                                             marginBottom: '24px', lineHeight: 1.6,
-                                            fontStyle: 'italic'
+                                            fontStyle: 'none'
                                         }}>
                                             " {item.overthinkingComment} "
                                         </div>
@@ -335,15 +335,15 @@ function Browse() {
                                             {inCart ? (
                                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                                                     <button onClick={() => handleRemoveFromCart(item._id)} className="btn btn-secondary">
-                                                        Unselect
+                                                        Remove from Cart
                                                     </button>
                                                     <button onClick={() => setShowCart(true)} className="btn btn-primary">
-                                                        View Bag
+                                                        View Cart
                                                     </button>
                                                 </div>
                                             ) : (
                                                 <button onClick={() => handleAddToCart(item._id)} className="btn btn-primary">
-                                                    Add to Shopping Bag
+                                                    Add to Cart
                                                 </button>
                                             )}
                                         </div>
