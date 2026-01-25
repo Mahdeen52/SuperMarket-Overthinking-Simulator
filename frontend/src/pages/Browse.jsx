@@ -325,7 +325,7 @@ function Browse() {
                                             background: '#f8fafc', padding: '20px',
                                             borderRadius: '12px', borderLeft: '4px solid var(--royal-main)',
                                             fontSize: '16px', color: '#171b20ff',
-                                            marginBottom: '24px', lineHeight: 1.6,
+                                            marginBottom: '24px', lineHeight: 2,
                                             fontStyle: 'none'
                                         }}>
                                             " {item.overthinkingComment} "
