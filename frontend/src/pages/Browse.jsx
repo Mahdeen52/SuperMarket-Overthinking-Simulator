@@ -7,6 +7,7 @@ function Browse() {
     const { token } = useAuth();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState(null);
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -24,6 +25,25 @@ function Browse() {
         fetchItems();
     }, [token]);
 
+    const handleDecision = async (itemId, action) => {
+        try {
+            const res = await axios.post('http://localhost:5000/api/decisions',
+                { itemId, action },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            setMessage({ text: res.data.message, type: action === 'buy' ? 'success' : 'neutral' });
+
+            // Clear message after 3 seconds
+            setTimeout(() => setMessage(null), 3000);
+        } catch (err) {
+            setMessage({
+                text: err.response?.data?.message || "Decision failed (Overthinking overload?)",
+                type: 'error'
+            });
+            setTimeout(() => setMessage(null), 3000);
+        }
+    };
+
     return (
         <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
             <Navbar />
@@ -33,6 +53,14 @@ function Browse() {
                     <h1 style={styles.title}>The Grocery Aisle</h1>
                     <p style={styles.subtitle}>Choose wisely. Or don't. It probably matters.</p>
                 </div>
+
+                {message && (
+                    <div style={{ ...styles.toast, backgroundColor: message.type === 'error' ? '#fee2e2' : message.type === 'success' ? '#dcfce7' : '#e0f2fe' }}>
+                        <span style={{ color: message.type === 'error' ? '#991b1b' : message.type === 'success' ? '#166534' : '#075985' }}>
+                            {message.text}
+                        </span>
+                    </div>
+                )}
 
                 {loading ? (
                     <div style={styles.loading}>Loading choices...</div>
@@ -61,9 +89,20 @@ function Browse() {
                                         <p style={styles.overthinkingText}>🧠 {item.overthinkingComment}</p>
                                     </div>
 
-                                    <button style={styles.buyBtn}>
-                                        Buy Now (Maybe?)
-                                    </button>
+                                    <div style={styles.actions}>
+                                        <button
+                                            onClick={() => handleDecision(item._id, 'buy')}
+                                            style={styles.buyBtn}
+                                        >
+                                            Buy It
+                                        </button>
+                                        <button
+                                            onClick={() => handleDecision(item._id, 'pass')}
+                                            style={styles.passBtn}
+                                        >
+                                            Put Back
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -75,6 +114,7 @@ function Browse() {
 }
 
 const styles = {
+    // ... (keeping existing styles)
     main: {
         maxWidth: '1200px',
         margin: '0 auto',
@@ -166,17 +206,43 @@ const styles = {
         color: '#475569',
         lineHeight: '1.5'
     },
+    actions: {
+        display: 'flex',
+        gap: '10px',
+        marginTop: '15px'
+    },
     buyBtn: {
-        marginTop: '15px',
-        width: '100%',
-        padding: '14px',
+        flex: 1,
+        padding: '12px',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         color: 'white',
         border: 'none',
-        borderRadius: '12px',
+        borderRadius: '8px',
         fontWeight: '600',
-        fontSize: '16px',
+        fontSize: '14px',
         boxShadow: '0 4px 12px rgba(118, 75, 162, 0.25)',
+    },
+    passBtn: {
+        flex: 1,
+        padding: '12px',
+        background: 'white',
+        color: '#64748b',
+        border: '1px solid #e2e8f0',
+        borderRadius: '8px',
+        fontWeight: '600',
+        fontSize: '14px',
+    },
+    toast: {
+        position: 'fixed',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        padding: '16px 24px',
+        borderRadius: '50px',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+        zIndex: 1000,
+        fontWeight: '600',
+        animation: 'fadeIn 0.3s ease-out'
     },
     loading: {
         textAlign: 'center',
