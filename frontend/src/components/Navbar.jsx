@@ -21,6 +21,8 @@ const Navbar = () => {
                 <div style={styles.links}>
                     {user ? (
                         <>
+                            <Link to="/browse" style={styles.link}>Browse</Link>
+                            <Link to="/dashboard" style={styles.link}>Dashboard</Link>
                             <span style={styles.user}>Hi, {user.username}</span>
                             <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
                         </>

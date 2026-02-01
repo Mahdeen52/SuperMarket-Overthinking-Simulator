@@ -18,7 +18,7 @@ const makeDecision = async (req, res) => {
         const decision = await Decision.create({
             user: req.user._id,
             item: itemId,
-            action: action,
+            choice: action,
             date: new Date()
         });
 
