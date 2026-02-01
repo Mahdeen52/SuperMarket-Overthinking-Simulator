@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { getItems, getItemById, createItem } = require('../controllers/itemController');
+const authMiddleware = require('../middleware/auth.middleware');
 
-// Placeholder for items routes - will be implemented in Week 4
-// GET /api/items - Get all items
-// GET /api/items/:id - Get single item
-// POST /api/items - Create item (admin)
-// PUT /api/items/:id - Update item (admin)
-// DELETE /api/items/:id - Delete item (admin)
+// All item routes are protected
+router.route('/').get(authMiddleware, getItems).post(authMiddleware, createItem);
+router.route('/:id').get(authMiddleware, getItemById);
 
 module.exports = router;
