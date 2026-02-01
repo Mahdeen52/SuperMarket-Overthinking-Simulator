@@ -1,200 +1,182 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Navbar from '../components/Navbar';
 
 function Register() {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const { register } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
+    const { username, email, password, confirmPassword } = formData;
 
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onSubmit = async e => {
+        e.preventDefault();
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;
         }
-
-        if (password.length < 8) {
-            setError('Password must be at least 8 characters');
-            return;
-        }
-
-        setLoading(true);
-        const result = await register(username, email, password);
-
-        if (result.success) {
+        try {
+            await register(username, email, password);
             navigate('/browse');
-        } else {
-            setError(result.message);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Registration failed');
         }
-        setLoading(false);
     };
 
     return (
-        <div style={styles.container}>
-            <div style={styles.card}>
-                <h1 style={styles.title}>🛒 Supermarket Overthinking Simulator</h1>
-                <h2 style={styles.subtitle}>Create Account</h2>
+        <div style={{
+            minHeight: '100vh',
+            backgroundImage: 'url(/bg-login.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            position: 'relative',
+        }}>
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'rgba(0,0,0,0.6)',
+                zIndex: 1
+            }}></div>
 
-                {error && <div style={styles.error}>{error}</div>}
+            <div style={{ position: 'relative', zIndex: 10 }}>
+                <Navbar transparent />
+            </div>
 
-                <form onSubmit={handleSubmit} style={styles.form}>
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Username</label>
-                        <input
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                            style={styles.input}
-                            placeholder="johndoe"
-                        />
+            <div className="container" style={{
+                position: 'relative',
+                zIndex: 5,
+                minHeight: 'calc(100vh - 80px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingBottom: '80px',
+                paddingTop: '20px'
+            }}>
+                <div className="fade-in" style={{
+                    width: '100%',
+                    maxWidth: '450px',
+                    padding: '60px 68px 40px',
+                    background: 'rgba(0, 0, 0, 0.75)',
+                    borderRadius: '4px',
+                    color: '#fff',
+                    boxShadow: '0 8px 16px rgba(0,0,0,0.5)'
+                }}>
+                    <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '28px', color: '#fff' }}>Sign Up</h1>
+
+                    {error && (
+                        <div style={{
+                            background: '#e87c03',
+                            color: 'white',
+                            padding: '10px 14px',
+                            borderRadius: '4px',
+                            marginBottom: '16px',
+                            fontSize: '14px'
+                        }}>
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div>
+                            <input
+                                type="text"
+                                name="username"
+                                value={username}
+                                onChange={onChange}
+                                placeholder="Username"
+                                style={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <input
+                                type="email"
+                                name="email"
+                                value={email}
+                                onChange={onChange}
+                                placeholder="Email address"
+                                style={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <input
+                                type="password"
+                                name="password"
+                                value={password}
+                                onChange={onChange}
+                                placeholder="Password"
+                                style={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                value={confirmPassword}
+                                onChange={onChange}
+                                placeholder="Confirm Password"
+                                style={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <button type="submit" style={styles.button}>
+                            Start Overthinking
+                        </button>
+                    </form>
+
+                    <div style={{ marginTop: '40px', color: '#737373', fontSize: '16px' }}>
+                        Already have an account?{' '}
+                        <Link to="/login" style={{ color: '#fff', textDecoration: 'none', fontWeight: '500' }}>
+                            Sign in.
+                        </Link>
                     </div>
-
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Email</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            style={styles.input}
-                            placeholder="your@email.com"
-                        />
-                    </div>
-
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            style={styles.input}
-                            placeholder="••••••••"
-                            minLength={8}
-                        />
-                    </div>
-
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Confirm Password</label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                            style={styles.input}
-                            placeholder="••••••••"
-                            minLength={8}
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        style={styles.button}
-                    >
-                        {loading ? 'Creating Account...' : 'Register'}
-                    </button>
-                </form>
-
-                <p style={styles.link}>
-                    Already have an account? <Link to="/login" style={styles.linkText}>Login here</Link>
-                </p>
+                </div>
             </div>
         </div>
     );
 }
 
 const styles = {
-    container: {
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        fontFamily: 'system-ui, -apple-system, sans-serif'
-    },
-    card: {
-        background: 'white',
-        padding: '40px',
-        borderRadius: '12px',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
-        width: '100%',
-        maxWidth: '400px'
-    },
-    title: {
-        fontSize: '24px',
-        marginBottom: '10px',
-        textAlign: 'center',
-        color: '#333'
-    },
-    subtitle: {
-        fontSize: '20px',
-        marginBottom: '30px',
-        textAlign: 'center',
-        color: '#666'
-    },
-    error: {
-        background: '#fee',
-        color: '#c33',
-        padding: '12px',
-        borderRadius: '6px',
-        marginBottom: '20px',
-        fontSize: '14px'
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px'
-    },
-    formGroup: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px'
-    },
-    label: {
-        fontSize: '14px',
-        fontWeight: '600',
-        color: '#333'
-    },
     input: {
-        padding: '12px',
-        border: '2px solid #ddd',
-        borderRadius: '6px',
+        width: '100%',
+        padding: '16px 20px',
+        borderRadius: '4px',
+        border: 'none',
+        background: '#333',
+        color: '#fff',
         fontSize: '16px',
-        transition: 'border-color 0.3s',
-        outline: 'none'
+        outline: 'none',
     },
     button: {
-        padding: '14px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
+        width: '100%',
+        padding: '16px',
+        borderRadius: '4px',
         border: 'none',
-        borderRadius: '6px',
+        background: '#2563EB',
+        color: 'white',
         fontSize: '16px',
-        fontWeight: '600',
+        fontWeight: '700',
         cursor: 'pointer',
-        transition: 'transform 0.2s',
-        marginTop: '10px'
-    },
-    link: {
-        textAlign: 'center',
-        marginTop: '20px',
-        fontSize: '14px',
-        color: '#666'
-    },
-    linkText: {
-        color: '#667eea',
-        textDecoration: 'none',
-        fontWeight: '600'
+        marginTop: '24px',
+        transition: 'background 0.2s'
     }
 };
 

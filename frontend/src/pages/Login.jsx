@@ -1,163 +1,157 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Navbar from '../components/Navbar';
 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const { email, password } = formData;
+
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onSubmit = async e => {
         e.preventDefault();
-        setError('');
-        setLoading(true);
-
-        const result = await login(email, password);
-
-        if (result.success) {
+        try {
+            await login(email, password);
             navigate('/browse');
-        } else {
-            setError(result.message);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Login failed');
         }
-        setLoading(false);
     };
 
     return (
-        <div style={styles.container}>
-            <div style={styles.card}>
-                <h1 style={styles.title}>🛒 Supermarket Overthinking Simulator</h1>
-                <h2 style={styles.subtitle}>Login</h2>
+        <div style={{
+            minHeight: '100vh',
+            backgroundImage: 'url(/bg-login.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            position: 'relative',
+        }}>
+            {/* Dark Gradient Overlay */}
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'rgba(0,0,0,0.5)',
+                zIndex: 1
+            }}></div>
 
-                {error && <div style={styles.error}>{error}</div>}
+            <div style={{ position: 'relative', zIndex: 10 }}>
+                <Navbar transparent />
+            </div>
 
-                <form onSubmit={handleSubmit} style={styles.form}>
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Email</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            style={styles.input}
-                            placeholder="your@email.com"
-                        />
+            <div className="container" style={{
+                position: 'relative',
+                zIndex: 5,
+                minHeight: 'calc(100vh - 80px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingBottom: '80px'
+            }}>
+                <div className="fade-in" style={{
+                    width: '100%',
+                    maxWidth: '450px',
+                    padding: '60px 68px 40px',
+                    background: 'rgba(0, 0, 0, 0.75)',
+                    borderRadius: '4px',
+                    color: '#fff',
+                    boxShadow: '0 8px 16px rgba(0,0,0,0.5)'
+                }}>
+                    <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '28px', color: '#fff' }}>Sign In</h1>
+
+                    {error && (
+                        <div style={{
+                            background: '#e87c03',
+                            color: 'white',
+                            padding: '10px 14px',
+                            borderRadius: '4px',
+                            marginBottom: '16px',
+                            fontSize: '14px'
+                        }}>
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div>
+                            <input
+                                type="email"
+                                name="email"
+                                value={email}
+                                onChange={onChange}
+                                placeholder="Email or phone number"
+                                style={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <input
+                                type="password"
+                                name="password"
+                                value={password}
+                                onChange={onChange}
+                                placeholder="Password"
+                                style={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <button type="submit" style={styles.button}>
+                            Sign In
+                        </button>
+                    </form>
+
+                    <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#b3b3b3' }}>
+                        <div>
+                            <input type="checkbox" id="remember" style={{ marginRight: '5px' }} />
+                            <label htmlFor="remember">Remember me</label>
+                        </div>
+                        <span style={{ cursor: 'pointer' }}>Need help?</span>
                     </div>
 
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            style={styles.input}
-                            placeholder="••••••••"
-                            minLength={8}
-                        />
+                    <div style={{ marginTop: '40px', color: '#737373', fontSize: '16px' }}>
+                        New to Overthinking Simulator?{' '}
+                        <Link to="/register" style={{ color: '#fff', textDecoration: 'none', fontWeight: '500' }}>
+                            Sign up now.
+                        </Link>
                     </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        style={styles.button}
-                    >
-                        {loading ? 'Logging in...' : 'Login'}
-                    </button>
-                </form>
-
-                <p style={styles.link}>
-                    Don't have an account? <Link to="/register" style={styles.linkText}>Register here</Link>
-                </p>
+                </div>
             </div>
         </div>
     );
 }
 
 const styles = {
-    container: {
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        fontFamily: 'system-ui, -apple-system, sans-serif'
-    },
-    card: {
-        background: 'white',
-        padding: '40px',
-        borderRadius: '12px',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
-        width: '100%',
-        maxWidth: '400px'
-    },
-    title: {
-        fontSize: '24px',
-        marginBottom: '10px',
-        textAlign: 'center',
-        color: '#333'
-    },
-    subtitle: {
-        fontSize: '20px',
-        marginBottom: '30px',
-        textAlign: 'center',
-        color: '#666'
-    },
-    error: {
-        background: '#fee',
-        color: '#c33',
-        padding: '12px',
-        borderRadius: '6px',
-        marginBottom: '20px',
-        fontSize: '14px'
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px'
-    },
-    formGroup: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px'
-    },
-    label: {
-        fontSize: '14px',
-        fontWeight: '600',
-        color: '#333'
-    },
     input: {
-        padding: '12px',
-        border: '2px solid #ddd',
-        borderRadius: '6px',
+        width: '100%',
+        padding: '16px 20px',
+        borderRadius: '4px',
+        border: 'none',
+        background: '#333',
+        color: '#fff',
         fontSize: '16px',
-        transition: 'border-color 0.3s',
-        outline: 'none'
+        outline: 'none',
     },
     button: {
-        padding: '14px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
+        width: '100%',
+        padding: '16px',
+        borderRadius: '4px',
         border: 'none',
-        borderRadius: '6px',
+        background: '#2563EB', // Royal Blue
+        color: 'white',
         fontSize: '16px',
-        fontWeight: '600',
+        fontWeight: '700',
         cursor: 'pointer',
-        transition: 'transform 0.2s',
-        marginTop: '10px'
-    },
-    link: {
-        textAlign: 'center',
-        marginTop: '20px',
-        fontSize: '14px',
-        color: '#666'
-    },
-    linkText: {
-        color: '#667eea',
-        textDecoration: 'none',
-        fontWeight: '600'
+        marginTop: '24px',
+        transition: 'background 0.2s'
     }
 };
 

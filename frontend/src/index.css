@@ -1,16 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap');
 
 :root {
-  --primary: #667eea;
-  --secondary: #764ba2;
-  --accent: #ff4b8b;
-  --bg-dark: #f8fafc;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --white: #ffffff;
-  --glass: rgba(255, 255, 255, 0.8);
-  --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  /* Royal Blue Theme */
+  --royal-light: #60a5fa;
+  /* Blue 400 */
+  --royal-main: #2563eb;
+  /* Blue 600 */
+  --royal-dark: #1e40af;
+  /* Blue 800 */
+  --royal-gradient: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+
+  /* Neutrals */
+  --bg-page: #eff6ff;
+  /* Blue 50 */
+  --bg-surface: #ffffff;
+  --text-primary: #1e293b;
+  /* Slate 800 */
+  --text-secondary: #64748b;
+  /* Slate 500 */
+  --border-color: #cbd5e1;
+  /* Slate 300 */
+
+  /* Functional */
+  --success: #059669;
+  --error: #dc2626;
+  --radius: 12px;
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 10px 15px -3px rgba(37, 99, 235, 0.2), 0 4px 6px -2px rgba(37, 99, 235, 0.1);
 }
 
 * {
@@ -20,34 +36,132 @@
 }
 
 body {
-  font-family: 'Outfit', -apple-system, system-ui, sans-serif;
-  background-color: var(--bg-dark);
-  color: var(--text-main);
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+/* Global Utility Classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.card {
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 1px solid white;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: var(--royal-gradient);
+  color: white;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:hover {
+  filter: brightness(110%);
+  box-shadow: 0 6px 10px rgba(37, 99, 235, 0.4);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--royal-main);
+  border: 2px solid var(--royal-main);
+}
+
+.btn-secondary:hover {
+  background: #eff6ff;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #f8fafc;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--royal-main);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background: white;
 }
 
 /* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Typography */
-h1, h2, h3 {
-  font-weight: 800;
-  letter-spacing: -0.025em;
+/* Special Text */
+.text-royal {
+  color: var(--royal-main);
 }
 
-button {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-button:active {
-  transform: scale(0.98);
+.text-gradient {
+  background: var(--royal-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

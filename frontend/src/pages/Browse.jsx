@@ -32,12 +32,10 @@ function Browse() {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setMessage({ text: res.data.message, type: action === 'buy' ? 'success' : 'neutral' });
-
-            // Clear message after 3 seconds
             setTimeout(() => setMessage(null), 3000);
         } catch (err) {
             setMessage({
-                text: err.response?.data?.message || "Decision failed (Overthinking overload?)",
+                text: err.response?.data?.message || "Decision failed",
                 type: 'error'
             });
             setTimeout(() => setMessage(null), 3000);
@@ -45,62 +43,101 @@ function Browse() {
     };
 
     return (
-        <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+        <div style={{ minHeight: '100vh' }}>
             <Navbar />
 
-            <main style={styles.main}>
-                <div style={styles.header}>
-                    <h1 style={styles.title}>The Grocery Aisle</h1>
-                    <p style={styles.subtitle}>Choose wisely. Or don't. It probably matters.</p>
+            <div className="container" style={{ padding: '60px 20px' }}>
+                <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+                    <h1 style={{ fontSize: '36px', fontWeight: '800', marginBottom: '16px', color: 'var(--royal-dark)' }}>
+                        Premium Market
+                    </h1>
+                    <p style={{ fontSize: '18px', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
+                        Select the finest items for your collection. Quality decisions matter.
+                    </p>
                 </div>
 
                 {message && (
-                    <div style={{ ...styles.toast, backgroundColor: message.type === 'error' ? '#fee2e2' : message.type === 'success' ? '#dcfce7' : '#e0f2fe' }}>
-                        <span style={{ color: message.type === 'error' ? '#991b1b' : message.type === 'success' ? '#166534' : '#075985' }}>
-                            {message.text}
-                        </span>
+                    <div style={{
+                        position: 'fixed',
+                        top: '100px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        padding: '16px 32px',
+                        borderRadius: '50px',
+                        background: message.type === 'error' ? '#ef4444' : '#10b981',
+                        color: 'white',
+                        zIndex: 200,
+                        fontWeight: '600',
+                        boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                        animation: 'slideUp 0.3s ease-out'
+                    }}>
+                        {message.text}
                     </div>
                 )}
 
                 {loading ? (
-                    <div style={styles.loading}>Loading choices...</div>
+                    <div style={{ textAlign: 'center', padding: '100px 0', color: 'var(--text-secondary)' }}>
+                        Loading inventory...
+                    </div>
                 ) : (
-                    <div style={styles.grid}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
                         {items.map((item, index) => (
-                            <div
-                                key={item._id}
-                                className="fade-in"
-                                style={{
-                                    ...styles.card,
-                                    animationDelay: `${index * 0.1}s`
-                                }}
-                            >
-                                <div style={styles.imageContainer}>
-                                    <img src={item.image} alt={item.name} style={styles.image} />
-                                    <span style={styles.price}>${item.price.toFixed(2)}</span>
+                            <div key={item._id} className="card fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
+                                <div style={{ height: '220px', position: 'relative', overflow: 'hidden', borderBottom: '1px solid #f1f5f9' }}>
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '16px',
+                                        right: '16px',
+                                        background: 'rgba(30, 64, 175, 0.9)',
+                                        color: 'white',
+                                        padding: '6px 14px',
+                                        borderRadius: '30px',
+                                        fontWeight: '700',
+                                        fontSize: '14px',
+                                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                                    }}>
+                                        ${item.price.toFixed(2)}
+                                    </div>
                                 </div>
 
-                                <div style={styles.content}>
-                                    <span style={styles.category}>{item.catrgory || item.category}</span>
-                                    <h3 style={styles.itemName}>{item.name}</h3>
-                                    <p style={styles.comment}>"{item.comment}"</p>
+                                <div style={{ padding: '24px' }}>
+                                    <h3 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-primary)' }}>
+                                        {item.name}
+                                    </h3>
+                                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '16px', fontStyle: 'italic' }}>
+                                        "{item.comment}"
+                                    </p>
 
-                                    <div style={styles.overthinkingBox}>
-                                        <p style={styles.overthinkingText}>🧠 {item.overthinkingComment}</p>
+                                    <div style={{
+                                        background: '#f8fafc',
+                                        padding: '16px',
+                                        borderRadius: '8px',
+                                        borderLeft: '4px solid var(--royal-main)',
+                                        fontSize: '13px',
+                                        color: '#334155',
+                                        marginBottom: '24px',
+                                        lineHeight: 1.6
+                                    }}>
+                                        {item.overthinkingComment}
                                     </div>
 
-                                    <div style={styles.actions}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                                         <button
                                             onClick={() => handleDecision(item._id, 'buy')}
-                                            style={styles.buyBtn}
+                                            className="btn btn-primary"
                                         >
-                                            Buy It
+                                            Purchase
                                         </button>
                                         <button
                                             onClick={() => handleDecision(item._id, 'pass')}
-                                            style={styles.passBtn}
+                                            className="btn btn-secondary"
                                         >
-                                            Put Back
+                                            Decline
                                         </button>
                                     </div>
                                 </div>
@@ -108,148 +145,9 @@ function Browse() {
                         ))}
                     </div>
                 )}
-            </main>
+            </div>
         </div>
     );
 }
-
-const styles = {
-    // ... (keeping existing styles)
-    main: {
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '40px 20px',
-    },
-    header: {
-        textAlign: 'center',
-        marginBottom: '60px',
-    },
-    title: {
-        fontSize: '48px',
-        marginBottom: '10px',
-        background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-    },
-    subtitle: {
-        fontSize: '18px',
-        color: '#64748b'
-    },
-    grid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-        gap: '30px',
-    },
-    card: {
-        background: 'white',
-        borderRadius: '20px',
-        overflow: 'hidden',
-        boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)',
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-        border: '1px solid rgba(0,0,0,0.03)',
-        cursor: 'default'
-    },
-    imageContainer: {
-        height: '200px',
-        width: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        transition: 'transform 0.5s ease',
-    },
-    price: {
-        position: 'absolute',
-        top: '15px',
-        right: '15px',
-        background: 'white',
-        padding: '6px 12px',
-        borderRadius: '30px',
-        fontWeight: '700',
-        fontSize: '14px',
-        boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-    },
-    content: {
-        padding: '24px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '12px'
-    },
-    category: {
-        fontSize: '12px',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        fontWeight: '700',
-        color: '#94a3b8'
-    },
-    itemName: {
-        fontSize: '20px',
-        color: '#1e293b'
-    },
-    comment: {
-        fontSize: '15px',
-        color: '#64748b',
-        fontStyle: 'italic',
-    },
-    overthinkingBox: {
-        background: '#f1f5f9',
-        padding: '12px',
-        borderRadius: '10px',
-        marginTop: '5px',
-        borderLeft: '4px solid #667eea'
-    },
-    overthinkingText: {
-        fontSize: '13px',
-        color: '#475569',
-        lineHeight: '1.5'
-    },
-    actions: {
-        display: 'flex',
-        gap: '10px',
-        marginTop: '15px'
-    },
-    buyBtn: {
-        flex: 1,
-        padding: '12px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        border: 'none',
-        borderRadius: '8px',
-        fontWeight: '600',
-        fontSize: '14px',
-        boxShadow: '0 4px 12px rgba(118, 75, 162, 0.25)',
-    },
-    passBtn: {
-        flex: 1,
-        padding: '12px',
-        background: 'white',
-        color: '#64748b',
-        border: '1px solid #e2e8f0',
-        borderRadius: '8px',
-        fontWeight: '600',
-        fontSize: '14px',
-    },
-    toast: {
-        position: 'fixed',
-        top: '20px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        padding: '16px 24px',
-        borderRadius: '50px',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-        zIndex: 1000,
-        fontWeight: '600',
-        animation: 'fadeIn 0.3s ease-out'
-    },
-    loading: {
-        textAlign: 'center',
-        padding: '50px',
-        fontSize: '20px',
-        color: '#64748b'
-    }
-};
 
 export default Browse;
