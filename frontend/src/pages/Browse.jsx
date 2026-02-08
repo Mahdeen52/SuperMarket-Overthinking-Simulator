@@ -111,7 +111,7 @@ function Browse() {
                         margin: '0 auto 32px',
                         color: 'rgba(25, 123, 180, 0.94)'
                     }}>
-                        Curated selections for the decisive shopper. High-quality items, minimal stress.
+                        High-quality items, minimal stress.
                     </p>
 
                     {/* Search Bar */}
