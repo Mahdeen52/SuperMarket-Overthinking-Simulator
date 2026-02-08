@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 const Item = require('../models/Item.model');
 
 // @desc    Get all items
@@ -38,7 +36,7 @@ const createItem = async (req, res) => {
         const { name, category, price, image, comment, overthinkingComment } = req.body;
         const item = new Item({
             name,
-            category, 
+            category,
             price,
             image,
             comment,
@@ -56,4 +54,3 @@ module.exports = {
     getItemById,
     createItem
 };
->>>>>>> Stashed changes

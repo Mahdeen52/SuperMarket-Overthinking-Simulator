@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { DashboardService } from '../api/services';
@@ -131,7 +129,7 @@ function Dashboard() {
                                                 ...styles.itemPrice,
                                                 color: activity.action === 'buy' ? '#C9A227' : '#999999'
                                             }}>
-                                                {activity.action === 'buy' ? `-$${activity.item?.price.toFixed(2)}` : '$0.00'}
+                                                {activity.action === 'buy' ? `৳${activity.item?.price}` : '৳0.00'}
                                             </div>
                                         </div>
                                     ))
@@ -348,4 +346,3 @@ const styles = {
 };
 
 export default Dashboard;
->>>>>>> Stashed changes

@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ItemsService, DecisionsService } from '../api/services';
@@ -90,6 +88,9 @@ function Browse() {
                                         src={item.image}
                                         alt={item.name}
                                         style={styles.productImage}
+                                        onError={(e) => {
+                                            e.target.src = 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80';
+                                        }}
                                     />
                                     <div style={styles.priceBadge}>
                                         ৳{item.price}
@@ -135,7 +136,7 @@ function Browse() {
                                     {/* Overthinking Comment Box */}
                                     <div style={styles.overthinkingBox}>
                                         <div style={styles.overthinkingHeader}>
-                                            <span style={styles.overthinkingIcon}></span>
+                                            <span style={styles.overthinkingIcon}>🤔</span>
                                             <span style={styles.overthinkingLabel}>Overthinking Aspect</span>
                                         </div>
                                         <p style={styles.overthinkingText}>
@@ -245,7 +246,8 @@ const styles = {
         borderRadius: '20px',
         overflow: 'hidden',
         border: '1px solid #E8E8E8',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
     },
     imageContainer: {
         height: '240px',
@@ -401,4 +403,3 @@ const styles = {
 };
 
 export default Browse;
->>>>>>> Stashed changes

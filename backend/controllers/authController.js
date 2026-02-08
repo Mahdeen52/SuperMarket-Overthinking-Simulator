@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 const User = require('../models/User.model');
 const jwt = require('jsonwebtoken');
 
@@ -120,4 +118,3 @@ module.exports = {
     getMe,
     googleAuth
 };
->>>>>>> Stashed changes

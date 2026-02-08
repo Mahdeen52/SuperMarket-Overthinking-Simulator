@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { AuthService } from '../api/services';
 
@@ -82,4 +80,3 @@ export const AuthProvider = ({ children }) => {
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
->>>>>>> Stashed changes

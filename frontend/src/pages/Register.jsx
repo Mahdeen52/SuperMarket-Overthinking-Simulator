@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -343,4 +341,3 @@ const styles = {
 };
 
 export default Register;
->>>>>>> Stashed changes
