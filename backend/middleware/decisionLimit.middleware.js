@@ -1,9 +1,9 @@
-const Decision = require('../models/Decision');
+const Decision = require('../models/Decision.model');
 
 const decisionLimitMiddleware = async (req, res, next) => {
   try {
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
 
     const count = await Decision.countDocuments({
       user: req.user._id,

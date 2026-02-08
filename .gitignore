@@ -36,3 +36,4 @@ backend/uploads/
 # Database
 *.db
 *.sqlite
+database/

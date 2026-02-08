@@ -1,0 +1,23 @@
+{
+    "name": "supermarket-overthinking-simulator",
+    "version": "1.0.0",
+    "description": "A web application that simulates overthinking grocery decisions",
+    "scripts": {
+        "start": "concurrently \"npm run server\" \"npm run client\"",
+        "server": "cd backend && npm start",
+        "client": "cd frontend && npm start",
+        "install-all": "npm install && cd backend && npm install && cd frontend && npm install",
+        "seed": "cd backend && node seed.js"
+    },
+    "keywords": [
+        "mern",
+        "react",
+        "express",
+        "mongodb"
+    ],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "concurrently": "^8.2.0"
+    }
+}
