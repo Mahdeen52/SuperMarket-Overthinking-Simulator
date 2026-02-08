@@ -16,8 +16,8 @@ const Navbar = ({ transparent }) => {
 
     const navStyle = {
         ...styles.nav,
-        background: transparent ? 'transparent' : 'var(--royal-dark)',
-        boxShadow: transparent ? 'none' : '0 4px 20px rgba(0,0,0,0.1)',
+        background: transparent ? 'transparent' : 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
+        boxShadow: transparent ? 'none' : '0 4px 20px rgba(0,0,0,0.15)',
         position: 'relative'
     };
 
@@ -33,15 +33,33 @@ const Navbar = ({ transparent }) => {
         <nav style={navStyle}>
             <div className="container" style={styles.container}>
                 <Link to="/browse" style={styles.logo}>
-                    <span style={{ fontSize: '32px', marginRight: '8px', color: '#2563EB' }}>🛒</span>
+                    <span style={{ fontSize: '32px', marginRight: '12px' }}>🛒</span>
+                    <span style={{
+                        fontSize: '24px',
+                        fontWeight: '800',
+                        color: 'white',
+                        fontFamily: 'Montserrat, sans-serif',
+                        letterSpacing: '-0.5px'
+                    }}>
+                        Overthinking Market
+                    </span>
                 </Link>
 
                 <div style={styles.actions}>
                     {user ? (
                         <>
-                            <Link to="/browse" style={styles.navLink}>Browse Items</Link>
-                            <Link to="/orders" style={styles.navLink}>Orders</Link>
-                            <Link to="/dashboard" style={styles.navLink}>Dashboard</Link>
+                            <Link to="/browse" style={styles.navLink}>
+                                <span style={{ fontSize: '18px', marginRight: '6px' }}>🏪</span>
+                                Browse
+                            </Link>
+                            <Link to="/orders" style={styles.navLink}>
+                                <span style={{ fontSize: '18px', marginRight: '6px' }}>📦</span>
+                                Orders
+                            </Link>
+                            <Link to="/dashboard" style={styles.navLink}>
+                                <span style={{ fontSize: '18px', marginRight: '6px' }}>📊</span>
+                                Dashboard
+                            </Link>
 
                             {/* Cart Icon with Badge */}
                             <div
@@ -62,20 +80,24 @@ const Navbar = ({ transparent }) => {
                                 <div style={styles.avatar}>{user.username.charAt(0).toUpperCase()}</div>
                                 <span style={styles.username}>{user.username}</span>
                             </div>
-                            <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
+                            <button onClick={handleLogout} style={styles.logoutBtn}>
+                                Logout
+                            </button>
                         </>
                     ) : (
                         <>
                             {!transparent && <Link to="/login" style={styles.navLink}>Login</Link>}
                             {transparent && (
                                 <Link to="/login" style={{
-                                    background: '#2563EB',
-                                    color: 'white',
-                                    padding: '7px 17px',
-                                    fontWeight: '500',
-                                    borderRadius: '3px',
+                                    background: 'white',
+                                    color: '#2563EB',
+                                    padding: '10px 24px',
+                                    fontWeight: '700',
+                                    borderRadius: '8px',
                                     textDecoration: 'none',
-                                    fontSize: '1rem'
+                                    fontSize: '15px',
+                                    transition: 'all 0.2s',
+                                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                                 }}>
                                     Sign In
                                 </Link>
@@ -106,24 +128,34 @@ const styles = {
         textDecoration: 'none',
         display: 'flex',
         alignItems: 'center',
-        fontSize: '20px'
+        fontSize: '20px',
+        transition: 'transform 0.2s'
     },
     actions: {
         display: 'flex',
         alignItems: 'center',
-        gap: '24px'
+        gap: '20px'
     },
     navLink: {
-        color: '#dbeafe',
+        color: 'white',
         textDecoration: 'none',
         fontWeight: '600',
-        fontSize: '14px',
-        transition: 'color 0.2s',
-        display: 'block'
+        fontSize: '15px',
+        transition: 'all 0.2s',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '8px 16px',
+        borderRadius: '8px',
+        background: 'rgba(255,255,255,0.1)',
+        backdropFilter: 'blur(10px)'
     },
     cartContainer: {
         position: 'relative',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        padding: '8px 12px',
+        borderRadius: '8px',
+        background: 'rgba(255,255,255,0.15)',
+        transition: 'all 0.2s'
     },
     cartIcon: {
         fontSize: '24px',
@@ -134,57 +166,63 @@ const styles = {
     },
     cartBadge: {
         position: 'absolute',
-        top: '-8px',
-        right: '-8px',
+        top: '-10px',
+        right: '-10px',
         background: '#ef4444',
         color: 'white',
         borderRadius: '50%',
-        width: '20px',
-        height: '20px',
+        width: '22px',
+        height: '22px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: '11px',
         fontWeight: '700',
-        border: '2px solid var(--royal-dark)'
+        border: '2px solid white',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
     },
     divider: {
         width: '1px',
-        height: '24px',
-        background: 'rgba(255,255,255,0.2)'
+        height: '30px',
+        background: 'rgba(255,255,255,0.3)'
     },
     userProfile: {
         display: 'flex',
         alignItems: 'center',
-        gap: '10px'
+        gap: '10px',
+        padding: '6px 12px',
+        borderRadius: '8px',
+        background: 'rgba(255,255,255,0.1)'
     },
     avatar: {
-        width: '32px',
-        height: '32px',
-        background: 'var(--royal-main)',
+        width: '36px',
+        height: '36px',
+        background: 'white',
         borderRadius: '50%',
-        color: 'white',
+        color: '#2563EB',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontWeight: '700',
-        fontSize: '14px'
+        fontWeight: '800',
+        fontSize: '16px',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
     },
     username: {
         color: 'white',
-        fontWeight: '600',
-        fontSize: '14px'
+        fontWeight: '700',
+        fontSize: '15px'
     },
     logoutBtn: {
-        background: 'transparent',
-        border: '1px solid rgba(255,255,255,0.3)',
+        background: 'rgba(255,255,255,0.2)',
+        border: '2px solid white',
         color: 'white',
-        padding: '6px 16px',
-        borderRadius: '6px',
+        padding: '8px 20px',
+        borderRadius: '8px',
         cursor: 'pointer',
-        fontWeight: '500',
-        fontSize: '13px',
-        transition: 'background 0.2s'
+        fontWeight: '700',
+        fontSize: '14px',
+        transition: 'all 0.2s',
+        backdropFilter: 'blur(10px)'
     }
 };
 

@@ -55,16 +55,28 @@ function Login() {
                 justifyContent: 'center',
                 paddingBottom: '80px'
             }}>
-                <div className="fade-in" style={{
+                <div className="fade-in glass" style={{
                     width: '100%',
-                    maxWidth: '450px',
-                    padding: '60px 68px 40px',
-                    background: 'rgba(0, 0, 0, 0.75)',
-                    borderRadius: '4px',
+                    maxWidth: '480px',
+                    padding: '60px 50px',
+                    background: 'rgba(15, 23, 42, 0.9)',
+                    borderRadius: '24px',
                     color: '#fff',
-                    boxShadow: '0 8px 16px rgba(0,0,0,0.5)'
+                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
-                    <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '28px', color: '#fff' }}>Sign In</h1>
+                    <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                        <h1 style={{
+                            fontSize: '42px',
+                            fontWeight: '800',
+                            color: '#fff',
+                            letterSpacing: '-1px',
+                            marginBottom: '10px'
+                        }}>
+                            Welcome Back
+                        </h1>
+                        <p style={{ color: '#94a3b8', fontSize: '16px' }}>Sign in to your premium collection</p>
+                    </div>
 
                     {error && (
                         <div style={{
@@ -133,25 +145,29 @@ const styles = {
     input: {
         width: '100%',
         padding: '16px 20px',
-        borderRadius: '4px',
-        border: 'none',
-        background: '#333',
+        borderRadius: '8px',
+        border: '1px solid #444',
+        background: 'rgba(51, 51, 51, 0.9)',
         color: '#fff',
         fontSize: '16px',
         outline: 'none',
+        transition: 'all 0.2s'
     },
     button: {
         width: '100%',
         padding: '16px',
-        borderRadius: '4px',
+        borderRadius: '8px',
         border: 'none',
-        background: '#2563EB', // Royal Blue
+        background: 'var(--royal-gradient)',
         color: 'white',
-        fontSize: '16px',
-        fontWeight: '700',
+        fontSize: '18px',
+        fontWeight: '800',
         cursor: 'pointer',
         marginTop: '24px',
-        transition: 'background 0.2s'
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        boxShadow: '0 4px 15px rgba(37, 99, 235, 0.4)',
+        textTransform: 'uppercase',
+        letterSpacing: '1px'
     }
 };
 
