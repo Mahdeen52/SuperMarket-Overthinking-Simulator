@@ -23,19 +23,17 @@ const makeDecision = async (req, res) => {
         });
 
         // Update User Stats
-        // If 'pass', increment overthinking count (simulating indecision/rejection)
-        // Always increment decisionsMade
+        // Only increment decisionsMade (overthinking now happens when removing from cart)
         const update = {
             $inc: {
-                'stats.decisionsMade': 1,
-                'stats.overthinkingCount': action === 'pass' ? 1 : 0
+                'stats.decisionsMade': 1
             }
         };
 
         const user = await User.findByIdAndUpdate(req.user._id, update, { new: true }).select('stats');
 
         res.status(201).json({
-            message: action === 'buy' ? "Item added to imaginary cart!" : "You overthought it and put it back.",
+            message: action === 'buy' ? "Decision recorded!" : "You passed on this item.",
             decision,
             newStats: user.stats
         });

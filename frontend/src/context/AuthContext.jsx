@@ -37,40 +37,24 @@ export const AuthProvider = ({ children }) => {
     }, [token]);
 
     const register = async (username, email, password) => {
-        try {
-            const res = await axios.post('http://localhost:5000/api/auth/register', {
-                username,
-                email,
-                password
-            });
-            localStorage.setItem('token', res.data.token);
-            setToken(res.data.token);
-            setUser(res.data);
-            return { success: true };
-        } catch (error) {
-            return {
-                success: false,
-                message: error.response?.data?.message || 'Registration failed'
-            };
-        }
+        const res = await axios.post('http://localhost:5000/api/auth/register', {
+            username,
+            email,
+            password
+        });
+        localStorage.setItem('token', res.data.token);
+        setToken(res.data.token);
+        setUser(res.data);
     };
 
     const login = async (email, password) => {
-        try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', {
-                email,
-                password
-            });
-            localStorage.setItem('token', res.data.token);
-            setToken(res.data.token);
-            setUser(res.data);
-            return { success: true };
-        } catch (error) {
-            return {
-                success: false,
-                message: error.response?.data?.message || 'Login failed'
-            };
-        }
+        const res = await axios.post('http://localhost:5000/api/auth/login', {
+            email,
+            password
+        });
+        localStorage.setItem('token', res.data.token);
+        setToken(res.data.token);
+        setUser(res.data);
     };
 
     const logout = () => {

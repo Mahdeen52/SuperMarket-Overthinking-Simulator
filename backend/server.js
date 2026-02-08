@@ -26,6 +26,8 @@ const decisionRoutes = require('./routes/decision.routes');
 const dashboardRoutes = require('./routes/dashboards.routes');
 const uploadRoutes = require('./routes/upload.routes');
 const adminRoutes = require('./routes/admin.routes');
+const cartRoutes = require('./routes/cart.routes');
+const orderRoutes = require('./routes/order.routes');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
@@ -34,6 +36,8 @@ app.use('/api/decisions', decisionRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
