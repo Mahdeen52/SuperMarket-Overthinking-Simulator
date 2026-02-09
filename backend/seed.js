@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Item = require('./models/Item.model');
+const Decision = require('./models/Decision.model');
 const { getAllProducts } = require('./data/products.data');
 
 // Load env vars
@@ -31,8 +32,15 @@ const seedDB = async () => {
             nutritionJoke: product.nutritionJoke
         }));
 
+        await Decision.deleteMany({});
+        console.log('Cleared existing decisions');
+
         await Item.deleteMany({});
         console.log('Cleared existing items');
+
+        const Cart = require('./models/Cart.model');
+        await Cart.deleteMany({});
+        console.log('Cleared all user carts');
 
         await Item.insertMany(items);
         console.log(`Seeded ${items.length} Bangladeshi products`);

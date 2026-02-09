@@ -54,7 +54,19 @@ function Dashboard() {
                 <div style={styles.header}>
                     <div>
                         <h1 style={styles.title}>Dashboard</h1>
-                        <p style={styles.subtitle}>Welcome back, {user?.username}. Here's your shopping analysis.</p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <p style={styles.subtitle}>Welcome back, {user?.username}. Here's your shopping analysis.</p>
+                            {stats?.funnyTag && (
+                                <span style={{
+                                    ...styles.tagBadge,
+                                    background: stats.overthinkingScore > 50 ? 'rgba(220, 38, 38, 0.15)' : 'rgba(201, 162, 39, 0.15)',
+                                    color: stats.overthinkingScore > 50 ? '#ef4444' : '#C9A227',
+                                    border: `1px solid ${stats.overthinkingScore > 50 ? 'rgba(220, 38, 38, 0.3)' : 'rgba(201, 162, 39, 0.3)'}`
+                                }}>
+                                    {stats.funnyTag}
+                                </span>
+                            )}
+                        </div>
                     </div>
                     <div style={styles.dateBadge}>
                         📊 {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
@@ -80,8 +92,8 @@ function Dashboard() {
                             />
                             <StatCard
                                 cardId="hesitations"
-                                title="Hesitations"
-                                value={stats?.overthinkingCount || 0}
+                                title="Hesitation Count"
+                                value={stats?.hesitationCount || 0}
                                 subtext="Items returned to shelf"
                                 icon="🤔"
                                 accentColor="#F59E0B"
@@ -132,7 +144,7 @@ function Dashboard() {
                                             <div style={styles.activityInfo}>
                                                 <div style={styles.itemName}>{activity.item?.name}</div>
                                                 <div style={styles.itemMeta}>
-                                                    {activity.action === 'buy' ? 'Purchased' : 'Returned to shelf'}
+                                                    {activity.choice === 'buy' ? 'Added to cart' : 'Back to the shelf'}
                                                     <span style={styles.dot}>•</span>
                                                     {new Date(activity.date).toLocaleDateString()}
                                                 </div>
@@ -142,7 +154,7 @@ function Dashboard() {
                                                 ...styles.itemPrice,
                                                 color: activity.action === 'buy' ? '#C9A227' : '#999999'
                                             }}>
-                                                {activity.action === 'buy' ? `৳${activity.item?.price}` : '৳0.00'}
+                                                ৳{activity.item ? activity.item.price.toFixed(2) : '0.00'}
                                             </div>
                                         </div>
                                     ))
@@ -200,6 +212,17 @@ const styles = {
         boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
         border: '1px solid rgba(201, 162, 39, 0.2)',
         fontWeight: '500'
+    },
+    tagBadge: {
+        padding: '4px 12px',
+        borderRadius: '50px',
+        fontSize: '12px',
+        fontWeight: '600',
+        backdropFilter: 'blur(10px)',
+        transition: 'all 0.3s ease',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        letterSpacing: '0.3px',
+        marginTop: '-4px'
     },
     loadingContainer: {
         textAlign: 'center',

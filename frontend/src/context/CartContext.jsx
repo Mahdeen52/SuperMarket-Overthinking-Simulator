@@ -130,7 +130,7 @@ export const CartProvider = ({ children }) => {
 
     const isInCart = (itemId) => {
         if (!cart || !cart.items) return false;
-        return cart.items.some(item => item.item._id === itemId);
+        return cart.items.some(item => item.item && item.item._id === itemId);
     };
 
     const value = {
