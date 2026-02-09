@@ -26,7 +26,9 @@ const seedDB = async () => {
             overthinkingComment: product.overthinkingComment,
             rating: product.rating,
             brand: product.brand,
-            segment: product.segment
+            segment: product.segment,
+            nutritionInfo: product.nutritionInfo,
+            nutritionJoke: product.nutritionJoke
         }));
 
         await Item.deleteMany({});

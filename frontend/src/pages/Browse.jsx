@@ -93,7 +93,7 @@ function Browse() {
                                         }}
                                     />
                                     <div style={styles.priceBadge}>
-                                        ৳{item.price}
+                                        ${item.price}
                                     </div>
                                 </div>
 
