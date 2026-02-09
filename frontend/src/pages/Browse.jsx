@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ItemsService, DecisionsService } from '../api/services';
 import Navbar from '../components/Navbar';
+import { useCart } from '../context/CartContext';
 
 function Browse() {
     const { token } = useAuth();
+    const { isInCart, addToCart, removeFromCart } = useCart();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState(null);
@@ -26,8 +28,14 @@ function Browse() {
 
     const handleDecision = async (itemId, action) => {
         try {
-            const data = await DecisionsService.create(itemId, action);
-            setMessage({ text: data.message, type: action === 'buy' ? 'success' : 'neutral' });
+            if (action === 'buy') {
+                await addToCart(itemId);
+            } else {
+                await removeFromCart(itemId);
+            }
+            await DecisionsService.create(itemId, action);
+            const feedbackMsg = action === 'buy' ? "Added to cart" : "Back to the shelf";
+            setMessage({ text: feedbackMsg, type: action === 'buy' ? 'success' : 'neutral' });
             setTimeout(() => setMessage(null), 3000);
         } catch (err) {
             setMessage({
@@ -98,7 +106,7 @@ function Browse() {
                                         }}
                                     />
                                     <div className="price-badge" style={styles.priceBadge}>
-                                        ${item.price}
+                                        ৳{item.price}
                                     </div>
                                 </div>
 
@@ -160,8 +168,14 @@ function Browse() {
                                         </button>
                                         <button
                                             onClick={() => handleDecision(item._id, 'pass')}
+                                            disabled={!isInCart(item._id)}
                                             className="pass-button"
-                                            style={styles.passButton}
+                                            style={{
+                                                ...styles.passButton,
+                                                opacity: isInCart(item._id) ? 1 : 0.4,
+                                                cursor: isInCart(item._id) ? 'pointer' : 'not-allowed',
+                                                borderColor: isInCart(item._id) ? 'rgba(201, 162, 39, 0.5)' : 'rgba(255, 255, 255, 0.1)'
+                                            }}
                                         >
                                             Pass
                                         </button>

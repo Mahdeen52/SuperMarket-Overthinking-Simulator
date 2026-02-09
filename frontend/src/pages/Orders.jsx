@@ -108,7 +108,7 @@ function Orders() {
                                     </div>
                                     <div style={{ textAlign: 'right' }}>
                                         <div style={{ fontSize: '28px', fontWeight: '900', color: 'var(--royal-main)' }}>
-                                            ${order.totalPrice.toFixed(2)}
+                                            ৳{order.totalPrice.toFixed(2)}
                                         </div>
                                         <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase' }}>
                                             Total Amount Paid
@@ -149,7 +149,7 @@ function Orders() {
                                                             </div>
                                                         </div>
                                                         <div style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text-primary)' }}>
-                                                            ${(orderItem.price * orderItem.quantity).toFixed(2)}
+                                                            ৳{(orderItem.price * orderItem.quantity).toFixed(2)}
                                                         </div>
                                                     </div>
                                                 ))}

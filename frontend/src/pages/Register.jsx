@@ -158,7 +158,7 @@ function Register() {
 const styles = {
     pageWrapper: {
         minHeight: '100vh',
-        background: 'linear-gradient(180deg, #FFFEF7 0%, #F5E6C8 100%)',
+        background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0f0f1a 100%)',
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
@@ -213,7 +213,10 @@ const styles = {
         fontSize: '24px',
         fontWeight: '700',
         fontFamily: "'Playfair Display', serif",
-        color: '#1A1A1A',
+        background: 'linear-gradient(135deg, #FFFFFF 0%, #C9A227 50%, #E8D48A 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
         letterSpacing: '-0.5px'
     },
     main: {
@@ -228,11 +231,16 @@ const styles = {
     card: {
         width: '100%',
         maxWidth: '440px',
-        background: '#FFFFFF',
+        background: 'rgba(255, 255, 255, 0.03)',
+        backdropFilter: 'blur(20px)',
         borderRadius: '24px',
         padding: '40px',
-        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 25px rgba(201, 162, 39, 0.1)',
-        border: '1px solid rgba(201, 162, 39, 0.2)'
+        boxShadow: `
+            0 10px 40px rgba(0, 0, 0, 0.4),
+            0 15px 60px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05)
+        `,
+        border: '1px solid rgba(255, 255, 255, 0.08)'
     },
     cardHeader: {
         textAlign: 'center',
@@ -241,13 +249,16 @@ const styles = {
     title: {
         fontSize: '32px',
         fontWeight: '600',
-        color: '#1A1A1A',
+        background: 'linear-gradient(135deg, #FFFFFF 0%, #C9A227 50%, #E8D48A 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
         marginBottom: '8px',
         fontFamily: "'Playfair Display', serif"
     },
     subtitle: {
         fontSize: '15px',
-        color: '#666666',
+        color: 'rgba(255, 255, 255, 0.6)',
         fontWeight: '400'
     },
     divider: {
@@ -256,9 +267,9 @@ const styles = {
         marginBottom: '28px'
     },
     errorBox: {
-        background: '#FEF2F2',
-        border: '1px solid #FECACA',
-        color: '#B91C1C',
+        background: 'rgba(220, 38, 38, 0.1)',
+        border: '1px solid rgba(220, 38, 38, 0.3)',
+        color: '#FECACA',
         padding: '14px 18px',
         borderRadius: '12px',
         marginBottom: '20px',
@@ -283,18 +294,20 @@ const styles = {
     label: {
         fontSize: '14px',
         fontWeight: '500',
-        color: '#1A1A1A'
+        color: 'rgba(255, 255, 255, 0.8)'
     },
     input: {
         width: '100%',
         padding: '14px 18px',
         borderRadius: '12px',
-        border: '2px solid #E8E8E8',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
         fontSize: '15px',
         fontFamily: "'Poppins', sans-serif",
         transition: 'all 0.3s ease',
-        background: '#FAFAFA',
-        outline: 'none'
+        background: 'rgba(255, 255, 255, 0.05)',
+        color: '#FFFFFF',
+        outline: 'none',
+        boxSizing: 'border-box'
     },
     button: {
         width: '100%',
@@ -302,16 +315,16 @@ const styles = {
         borderRadius: '12px',
         border: 'none',
         background: 'linear-gradient(135deg, #C9A227 0%, #E8D48A 50%, #C9A227 100%)',
-        color: '#1A1A1A',
+        color: '#0f0f1a',
         fontSize: '16px',
-        fontWeight: '600',
+        fontWeight: '700',
         fontFamily: "'Poppins', sans-serif",
         cursor: 'pointer',
         marginTop: '8px',
-        boxShadow: '0 8px 25px rgba(201, 162, 39, 0.25)',
+        boxShadow: '0 8px 25px rgba(201, 162, 39, 0.3)',
         transition: 'all 0.3s ease',
         textTransform: 'uppercase',
-        letterSpacing: '1px'
+        letterSpacing: '1.5px'
     },
     footer: {
         marginTop: '28px',
@@ -322,18 +335,18 @@ const styles = {
     },
     footerText: {
         fontSize: '14px',
-        color: '#666666'
+        color: 'rgba(255, 255, 255, 0.5)'
     },
     loginLink: {
         fontSize: '15px',
-        color: '#C9A227',
+        color: '#E8D48A',
         fontWeight: '600',
         textDecoration: 'none'
     },
     tagline: {
         padding: '24px',
         textAlign: 'center',
-        color: '#999999',
+        color: 'rgba(255, 255, 255, 0.3)',
         fontSize: '13px',
         position: 'relative',
         zIndex: 10
