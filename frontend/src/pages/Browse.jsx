@@ -8,6 +8,7 @@ function Browse() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState(null);
+    const [hoveredCard, setHoveredCard] = useState(null);
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -43,8 +44,8 @@ function Browse() {
 
             <div className="container" style={styles.container}>
                 {/* Page Header */}
-                <div style={styles.header}>
-                    <span style={styles.badge}>✨ Premium Selection</span>
+                <div className="page-header" style={styles.header}>
+                    <span className="page-badge" style={styles.badge}>✨ Premium Selection</span>
                     <h1 style={styles.title}>Our Products</h1>
                     <p style={styles.subtitle}>
                         Carefully curated items for the discerning shopper.
@@ -76,23 +77,27 @@ function Browse() {
                         {items.map((item, index) => (
                             <div
                                 key={item._id}
-                                className="card fade-in"
+                                className={`product-card fade-in stagger-${(index % 6) + 1}`}
                                 style={{
                                     ...styles.productCard,
-                                    animationDelay: `${index * 0.08}s`
+                                    animationDelay: `${index * 0.08}s`,
+                                    ...(hoveredCard === item._id ? styles.productCardHover : {})
                                 }}
+                                onMouseEnter={() => setHoveredCard(item._id)}
+                                onMouseLeave={() => setHoveredCard(null)}
                             >
                                 {/* Product Image */}
-                                <div style={styles.imageContainer}>
+                                <div className="product-image-container" style={styles.imageContainer}>
                                     <img
                                         src={item.image}
                                         alt={item.name}
+                                        className="product-image"
                                         style={styles.productImage}
                                         onError={(e) => {
                                             e.target.src = 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80';
                                         }}
                                     />
-                                    <div style={styles.priceBadge}>
+                                    <div className="price-badge" style={styles.priceBadge}>
                                         ${item.price}
                                     </div>
                                 </div>
@@ -107,22 +112,22 @@ function Browse() {
 
                                     {/* Nutrition Info */}
                                     {item.nutritionInfo && (
-                                        <div style={styles.nutritionBox}>
+                                        <div className="nutrition-box" style={styles.nutritionBox}>
                                             <div style={styles.nutritionHeader}>Nutrition Information</div>
                                             <div style={styles.nutritionGrid}>
-                                                <div style={styles.nutritionItem}>
+                                                <div className="nutrition-item" style={styles.nutritionItem}>
                                                     <span style={styles.nutritionLabel}>Calorie</span>
                                                     <span style={styles.nutritionValue}>{item.nutritionInfo.calories}</span>
                                                 </div>
-                                                <div style={styles.nutritionItem}>
+                                                <div className="nutrition-item" style={styles.nutritionItem}>
                                                     <span style={styles.nutritionLabel}>Protein</span>
                                                     <span style={styles.nutritionValue}>{item.nutritionInfo.protein}</span>
                                                 </div>
-                                                <div style={styles.nutritionItem}>
+                                                <div className="nutrition-item" style={styles.nutritionItem}>
                                                     <span style={styles.nutritionLabel}>Carbs</span>
                                                     <span style={styles.nutritionValue}>{item.nutritionInfo.carbs}</span>
                                                 </div>
-                                                <div style={styles.nutritionItem}>
+                                                <div className="nutrition-item" style={styles.nutritionItem}>
                                                     <span style={styles.nutritionLabel}>Fat</span>
                                                     <span style={styles.nutritionValue}>{item.nutritionInfo.fat}</span>
                                                 </div>
@@ -134,9 +139,9 @@ function Browse() {
                                     )}
 
                                     {/* Overthinking Comment Box */}
-                                    <div style={styles.overthinkingBox}>
+                                    <div className="overthinking-box" style={styles.overthinkingBox}>
                                         <div style={styles.overthinkingHeader}>
-                                            <span style={styles.overthinkingIcon}>🤔</span>
+                                            <span className="overthinking-icon" style={styles.overthinkingIcon}>🤔</span>
                                             <span style={styles.overthinkingLabel}>Overthinking Aspect</span>
                                         </div>
                                         <p style={styles.overthinkingText}>
@@ -148,12 +153,14 @@ function Browse() {
                                     <div style={styles.buttonGroup}>
                                         <button
                                             onClick={() => handleDecision(item._id, 'buy')}
+                                            className="buy-button"
                                             style={styles.buyButton}
                                         >
                                             Add to Cart
                                         </button>
                                         <button
                                             onClick={() => handleDecision(item._id, 'pass')}
+                                            className="pass-button"
                                             style={styles.passButton}
                                         >
                                             Pass
@@ -172,10 +179,14 @@ function Browse() {
 const styles = {
     pageWrapper: {
         minHeight: '100vh',
-        background: 'linear-gradient(180deg, #FAFAFA 0%, #F5E6C8 100%)'
+        background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0f0f1a 100%)',
+        position: 'relative',
+        overflow: 'hidden'
     },
     container: {
-        padding: '48px 24px 80px'
+        padding: '48px 24px 80px',
+        position: 'relative',
+        zIndex: 1
     },
     header: {
         textAlign: 'center',
@@ -183,222 +194,274 @@ const styles = {
     },
     badge: {
         display: 'inline-block',
-        padding: '8px 20px',
-        background: 'linear-gradient(135deg, #C9A227 0%, #E8D48A 100%)',
-        color: '#1A1A1A',
+        padding: '10px 24px',
+        background: 'linear-gradient(135deg, #C9A227 0%, #F5E6C8 50%, #C9A227 100%)',
+        backgroundSize: '200% 200%',
+        color: '#0f0f1a',
         borderRadius: '50px',
-        fontWeight: '600',
-        fontSize: '13px',
-        marginBottom: '20px',
-        letterSpacing: '0.5px',
-        boxShadow: '0 4px 15px rgba(201, 162, 39, 0.25)'
+        fontWeight: '700',
+        fontSize: '12px',
+        marginBottom: '24px',
+        letterSpacing: '2px',
+        textTransform: 'uppercase',
+        boxShadow: '0 8px 32px rgba(201, 162, 39, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)'
     },
     title: {
-        fontSize: '42px',
+        fontSize: '52px',
         fontWeight: '700',
-        color: '#1A1A1A',
-        marginBottom: '16px',
-        fontFamily: "'Playfair Display', serif"
+        background: 'linear-gradient(135deg, #FFFFFF 0%, #C9A227 50%, #FFFFFF 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+        marginBottom: '20px',
+        fontFamily: "'Playfair Display', serif",
+        textShadow: '0 0 40px rgba(201, 162, 39, 0.3)'
     },
     subtitle: {
-        fontSize: '17px',
-        color: '#666666',
-        maxWidth: '500px',
+        fontSize: '18px',
+        color: 'rgba(255, 255, 255, 0.6)',
+        maxWidth: '550px',
         margin: '0 auto',
-        lineHeight: '1.7'
+        lineHeight: '1.8',
+        fontWeight: '300',
+        letterSpacing: '0.5px'
     },
     toast: {
         position: 'fixed',
         top: '100px',
         left: '50%',
         transform: 'translateX(-50%)',
-        padding: '16px 32px',
-        borderRadius: '12px',
+        padding: '18px 36px',
+        borderRadius: '16px',
         zIndex: 200,
         fontWeight: '600',
-        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
-        fontSize: '15px'
+        gap: '12px',
+        fontSize: '15px',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)'
     },
     loadingContainer: {
         textAlign: 'center',
         padding: '100px 0',
-        color: '#666666'
+        color: 'rgba(255, 255, 255, 0.6)'
     },
     spinner: {
-        width: '40px',
-        height: '40px',
-        border: '3px solid #E8E8E8',
+        width: '48px',
+        height: '48px',
+        border: '3px solid rgba(255, 255, 255, 0.1)',
         borderTopColor: '#C9A227',
         borderRadius: '50%',
-        margin: '0 auto 16px',
+        margin: '0 auto 20px',
         animation: 'spin 1s linear infinite'
     },
     grid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-        gap: '32px'
+        gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
+        gap: '40px'
     },
     productCard: {
-        background: '#FFFFFF',
-        borderRadius: '20px',
+        background: 'rgba(255, 255, 255, 0.03)',
+        backdropFilter: 'blur(20px)',
+        borderRadius: '24px',
         overflow: 'hidden',
-        border: '1px solid #E8E8E8',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+        boxShadow: `
+            0 10px 40px rgba(0, 0, 0, 0.5),
+            0 15px 60px rgba(0, 0, 0, 0.3),
+            0 5px 20px rgba(201, 162, 39, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05)
+        `,
+        cursor: 'pointer',
+        transformStyle: 'preserve-3d',
+        perspective: '1000px'
+    },
+    productCardHover: {
+        transform: 'translateY(-24px) scale(1.02)',
+        border: '1px solid rgba(255, 255, 255, 0.35)',
+        boxShadow: `
+            0 0 0 2px rgba(255, 255, 255, 0.15),
+            0 0 25px rgba(255, 255, 255, 0.2),
+            0 0 50px rgba(255, 255, 255, 0.1),
+            0 30px 60px rgba(0, 0, 0, 0.6),
+            0 50px 100px rgba(0, 0, 0, 0.4),
+            0 20px 50px rgba(201, 162, 39, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3)
+        `
     },
     imageContainer: {
-        height: '240px',
+        height: '260px',
         position: 'relative',
         overflow: 'hidden',
-        background: '#FAFAFA'
+        background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%)',
+        transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)'
     },
     productImage: {
         width: '100%',
         height: '100%',
         objectFit: 'cover',
-        transition: 'transform 0.4s ease'
+        transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.4s ease, opacity 0.3s ease',
+        willChange: 'transform'
     },
     priceBadge: {
         position: 'absolute',
-        top: '16px',
-        right: '16px',
-        background: 'linear-gradient(135deg, #C9A227 0%, #E8D48A 100%)',
-        color: '#1A1A1A',
-        padding: '8px 18px',
+        top: '20px',
+        right: '20px',
+        background: 'linear-gradient(135deg, #C9A227 0%, #E8D48A 50%, #C9A227 100%)',
+        color: '#0f0f1a',
+        padding: '12px 24px',
         borderRadius: '50px',
-        fontWeight: '700',
-        fontSize: '15px',
-        boxShadow: '0 4px 15px rgba(201, 162, 39, 0.3)',
-        fontFamily: "'Poppins', sans-serif"
+        fontWeight: '800',
+        fontSize: '16px',
+        boxShadow: '0 8px 25px rgba(201, 162, 39, 0.5), inset 0 2px 0 rgba(255,255,255,0.3)',
+        fontFamily: "'Poppins', sans-serif",
+        letterSpacing: '0.5px'
     },
     productInfo: {
-        padding: '28px'
+        padding: '32px',
+        background: 'linear-gradient(180deg, rgba(26, 26, 46, 0.8) 0%, rgba(15, 15, 26, 0.95) 100%)'
     },
     productName: {
-        fontSize: '22px',
+        fontSize: '24px',
         fontWeight: '600',
         marginBottom: '8px',
-        color: '#1A1A1A',
-        fontFamily: "'Playfair Display', serif"
+        color: '#FFFFFF',
+        fontFamily: "'Playfair Display', serif",
+        letterSpacing: '0.5px'
     },
     productComment: {
         fontSize: '14px',
-        color: '#888888',
+        color: 'rgba(255, 255, 255, 0.5)',
         fontStyle: 'italic',
-        marginBottom: '16px'
+        marginBottom: '20px',
+        lineHeight: '1.6'
     },
     nutritionBox: {
-        background: 'linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%)',
-        padding: '16px',
-        borderRadius: '12px',
-        border: '1px solid rgba(76, 175, 80, 0.3)',
-        marginBottom: '16px'
+        background: 'linear-gradient(135deg, rgba(46, 125, 50, 0.15) 0%, rgba(76, 175, 80, 0.1) 100%)',
+        padding: '20px',
+        borderRadius: '16px',
+        border: '1px solid rgba(76, 175, 80, 0.2)',
+        marginBottom: '20px',
+        backdropFilter: 'blur(10px)'
     },
     nutritionHeader: {
-        fontWeight: '600',
-        fontSize: '13px',
-        color: '#2E7D32',
-        marginBottom: '12px',
+        fontWeight: '700',
+        fontSize: '11px',
+        color: '#81C784',
+        marginBottom: '16px',
         textTransform: 'uppercase',
-        letterSpacing: '0.5px'
+        letterSpacing: '2px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px'
     },
     nutritionGrid: {
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: '10px',
-        marginBottom: '12px'
+        gap: '12px',
+        marginBottom: '16px'
     },
     nutritionItem: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '8px 12px',
-        background: 'rgba(255, 255, 255, 0.7)',
-        borderRadius: '8px'
+        padding: '12px 16px',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '12px',
+        border: '1px solid rgba(255, 255, 255, 0.05)'
     },
     nutritionLabel: {
         fontSize: '12px',
-        color: '#555555',
-        fontWeight: '500'
+        color: 'rgba(255, 255, 255, 0.6)',
+        fontWeight: '500',
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px'
     },
     nutritionValue: {
-        fontSize: '13px',
-        color: '#2E7D32',
+        fontSize: '14px',
+        color: '#A5D6A7',
         fontWeight: '700'
     },
     nutritionJoke: {
-        fontSize: '12px',
-        color: '#558B2F',
+        fontSize: '13px',
+        color: 'rgba(165, 214, 167, 0.8)',
         fontStyle: 'italic',
-        padding: '10px',
-        background: 'rgba(255, 255, 255, 0.5)',
-        borderRadius: '8px',
-        lineHeight: '1.6'
+        padding: '14px',
+        background: 'rgba(255, 255, 255, 0.03)',
+        borderRadius: '12px',
+        lineHeight: '1.7',
+        borderLeft: '3px solid rgba(76, 175, 80, 0.5)'
     },
     overthinkingBox: {
-        background: 'linear-gradient(135deg, #FFFEF7 0%, #F5E6C8 100%)',
-        padding: '20px',
-        borderRadius: '14px',
-        border: '1px solid rgba(201, 162, 39, 0.2)',
-        marginBottom: '24px'
+        background: 'linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(232, 212, 138, 0.05) 100%)',
+        padding: '24px',
+        borderRadius: '16px',
+        border: '1px solid rgba(201, 162, 39, 0.15)',
+        marginBottom: '28px',
+        backdropFilter: 'blur(10px)',
+        position: 'relative',
+        overflow: 'hidden'
     },
     overthinkingHeader: {
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
-        marginBottom: '12px'
+        gap: '10px',
+        marginBottom: '14px'
     },
     overthinkingIcon: {
-        fontSize: '18px'
+        fontSize: '22px',
+        filter: 'drop-shadow(0 0 8px rgba(201, 162, 39, 0.5))'
     },
     overthinkingLabel: {
-        fontWeight: '600',
-        fontSize: '13px',
-        color: '#9A7B0A',
+        fontWeight: '700',
+        fontSize: '11px',
+        color: '#E8D48A',
         textTransform: 'uppercase',
-        letterSpacing: '0.5px'
+        letterSpacing: '2px'
     },
     overthinkingText: {
         fontSize: '14px',
-        color: '#555555',
-        lineHeight: '1.7'
+        color: 'rgba(255, 255, 255, 0.7)',
+        lineHeight: '1.8'
     },
     buttonGroup: {
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: '12px'
+        gap: '16px'
     },
     buyButton: {
-        padding: '14px',
-        borderRadius: '10px',
+        padding: '16px',
+        borderRadius: '14px',
         border: 'none',
         background: 'linear-gradient(135deg, #C9A227 0%, #E8D48A 50%, #C9A227 100%)',
-        color: '#1A1A1A',
-        fontSize: '14px',
-        fontWeight: '600',
+        backgroundSize: '200% 200%',
+        color: '#0f0f1a',
+        fontSize: '13px',
+        fontWeight: '700',
         cursor: 'pointer',
         fontFamily: "'Poppins', sans-serif",
-        boxShadow: '0 4px 15px rgba(201, 162, 39, 0.25)',
-        transition: 'all 0.2s ease',
+        boxShadow: '0 8px 30px rgba(201, 162, 39, 0.35), inset 0 2px 0 rgba(255,255,255,0.2)',
+        transition: 'all 0.3s ease',
         textTransform: 'uppercase',
-        letterSpacing: '0.5px'
+        letterSpacing: '1.5px'
     },
     passButton: {
-        padding: '14px',
-        borderRadius: '10px',
-        border: '2px solid #C9A227',
-        background: 'transparent',
-        color: '#9A7B0A',
-        fontSize: '14px',
-        fontWeight: '600',
+        padding: '16px',
+        borderRadius: '14px',
+        border: '2px solid rgba(201, 162, 39, 0.5)',
+        background: 'rgba(201, 162, 39, 0.05)',
+        color: '#E8D48A',
+        fontSize: '13px',
+        fontWeight: '700',
         cursor: 'pointer',
         fontFamily: "'Poppins', sans-serif",
-        transition: 'all 0.2s ease',
+        transition: 'all 0.3s ease',
         textTransform: 'uppercase',
-        letterSpacing: '0.5px'
+        letterSpacing: '1.5px',
+        backdropFilter: 'blur(10px)'
     }
 };
 

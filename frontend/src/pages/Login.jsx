@@ -267,7 +267,8 @@ const styles = {
         fontFamily: "'Poppins', sans-serif",
         transition: 'all 0.3s ease',
         background: '#FAFAFA',
-        outline: 'none'
+        outline: 'none',
+        boxSizing: 'border-box'
     },
     rememberRow: {
         display: 'flex',
