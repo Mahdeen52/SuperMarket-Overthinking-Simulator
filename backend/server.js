@@ -15,9 +15,18 @@ app.use(express.json());
 
 // MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/supermarket-simulator';
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.log('MongoDB connection error:', err));
+console.log('Attempting to connect to MongoDB...');
+console.log('MONGO_URI:', MONGO_URI ? 'URI is set' : 'Using default localhost');
+
+mongoose.connect(MONGO_URI, {
+  serverSelectionTimeoutMS: 30000,
+  socketTimeoutMS: 45000,
+})
+  .then(() => console.log('✅ MongoDB connected successfully'))
+  .catch(err => {
+    console.log('❌ MongoDB connection error:', err.message);
+    console.log('Full error:', err);
+  });
 
 // Import Routes
 const authRoutes = require('./routes/auth.routes');
