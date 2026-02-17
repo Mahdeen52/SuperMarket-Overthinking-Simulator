@@ -1,7 +1,7 @@
-# Supermarket Overthinking Simulator - Updates & Fixes
+# DalChaal - Updates & Fixes
 
 ## Overview
-This document outlines all the fixes and enhancements made to transform the Supermarket Overthinking Simulator into a fully functional e-commerce application with proper overthinking logic.
+This document outlines all the fixes and enhancements made to transform the application into a premium e-commerce experience.
 
 ## Issues Fixed
 

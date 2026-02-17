@@ -7,6 +7,8 @@ import Register from './pages/Register';
 import Browse from './pages/Browse';
 import Dashboard from './pages/Dashboard';
 import Orders from './pages/Orders';
+import Cart from './pages/Cart';
+import ShoppingAssistant from './pages/ShoppingAssistant';
 
 // Protected Route Component
 function ProtectedRoute({ children }) {
@@ -58,6 +60,22 @@ function App() {
                             element={
                                 <ProtectedRoute>
                                     <Orders />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/cart"
+                            element={
+                                <ProtectedRoute>
+                                    <Cart />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/assistant"
+                            element={
+                                <ProtectedRoute>
+                                    <ShoppingAssistant />
                                 </ProtectedRoute>
                             }
                         />

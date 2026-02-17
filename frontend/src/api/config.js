@@ -36,6 +36,11 @@ const API_CONFIG = {
     // Upload endpoints
     UPLOAD: {
         IMAGE: '/api/upload/image'
+    },
+
+    // Overthinking endpoints
+    OVERTHINKING: {
+        COMMENT: (category) => `/api/overthinking/comment?category=${category}`
     }
 };
 

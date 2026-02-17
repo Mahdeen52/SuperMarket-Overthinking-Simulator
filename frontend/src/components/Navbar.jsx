@@ -181,6 +181,38 @@ const Navbar = ({ transparent }) => {
                                         <div style={getUnderlineStyle('/merchant-dashboard')}></div>
                                     </Link>
                                 )}
+
+                                <Link
+                                    to="/assistant"
+                                    style={getNavLinkStyle('/assistant')}
+                                    onMouseEnter={() => setHoveredLink('/assistant')}
+                                    onMouseLeave={() => setHoveredLink(null)}
+                                    className="nav-link-animated"
+                                >
+                                    <svg style={styles.navLinkIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="1.8" />
+                                        <path d="M12 16V12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                                        <path d="M12 8H12.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                                    </svg>
+                                    Assistant
+                                    <div style={getUnderlineStyle('/assistant')}></div>
+                                </Link>
+
+                                <Link
+                                    to="/cart"
+                                    style={getNavLinkStyle('/cart')}
+                                    onMouseEnter={() => setHoveredLink('/cart')}
+                                    onMouseLeave={() => setHoveredLink(null)}
+                                    className="nav-link-animated"
+                                >
+                                    <svg style={styles.navLinkIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38751 15.5583C8.75312 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3269 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                    Cart
+                                    <div style={getUnderlineStyle('/cart')}></div>
+                                </Link>
                             </div>
 
                             {/* Glowing Divider */}

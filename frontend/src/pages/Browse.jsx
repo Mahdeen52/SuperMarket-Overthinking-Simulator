@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { ItemsService, DecisionsService } from '../api/services';
+import { ItemsService, DecisionsService, OverthinkingService } from '../api/services';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
 
@@ -11,14 +11,29 @@ function Browse() {
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState(null);
     const [hoveredCard, setHoveredCard] = useState(null);
+    const [randomComments, setRandomComments] = useState({});
 
     useEffect(() => {
         const fetchItems = async () => {
             try {
                 const data = await ItemsService.getAll();
                 setItems(data);
+
+                // Fetch random comments for each item's category
+                const commentPromises = data.map(async (item) => {
+                    const res = await OverthinkingService.getComment(item.category);
+                    return { id: item._id, comment: res.comment };
+                });
+
+                const commentsResults = await Promise.all(commentPromises);
+                const commentsMap = {};
+                commentsResults.forEach(res => {
+                    commentsMap[res.id] = res.comment;
+                });
+                setRandomComments(commentsMap);
+
             } catch (err) {
-                console.error("Failed to fetch items:", err);
+                console.error("Failed to fetch items or comments:", err);
             } finally {
                 setLoading(false);
             }
@@ -153,7 +168,7 @@ function Browse() {
                                             <span style={styles.overthinkingLabel}>Overthinking Aspect</span>
                                         </div>
                                         <p style={styles.overthinkingText}>
-                                            {item.overthinkingComment}
+                                            {randomComments[item._id] || item.overthinkingComment}
                                         </p>
                                     </div>
 
