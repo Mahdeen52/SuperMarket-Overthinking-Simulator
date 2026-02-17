@@ -1,7 +1,7 @@
 {
-    "name": "supermarket-overthinking-simulator",
+    "name": "dalchaal",
     "version": "1.0.0",
-    "description": "A web application that simulates overthinking grocery decisions",
+    "description": "A premium e-commerce application for grocery shopping",
     "scripts": {
         "start": "concurrently \"npm run server\" \"npm run client\"",
         "server": "cd backend && npm start",

@@ -113,4 +113,16 @@ export const DashboardService = {
     }
 };
 
+// ============================================
+// OVERTHINKING SERVICE INTERFACE
+// ============================================
+export const OverthinkingService = {
+    getComment: async (category, productName) => {
+        const response = await axios.get(`${API_CONFIG.BASE_URL}/api/overthinking/comment`, {
+            params: { category, productName }
+        });
+        return response.data;
+    }
+};
+
 export default apiClient;
